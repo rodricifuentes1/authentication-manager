@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.8.1" last-position="2,0" last-zoom="0.8"
+	 default-schema="public" default-owner="postgres">
+<database name="new_database">
+</database>
+
+<schema name="public" protected="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="USERS">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="301.5" y="95"/>
+	<column name="ID" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="STATUS" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="IDENTIFICATION" not-null="true">
+		<type name="varchar" length="20"/>
+	</column>
+	<column name="IDENTIFICATION_TYPE_ID" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="EMAIL" not-null="true">
+		<type name="varchar" length="254"/>
+	</column>
+	<column name="EMAIL_CONFIRMED" not-null="true">
+		<type name="boolean"/>
+	</column>
+	<column name="USERNAME" not-null="true">
+		<type name="varchar" length="30"/>
+	</column>
+	<column name="PASSWORD" not-null="true">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="PASSWORD_UPDATED_AT">
+		<type name="timestamp" with-timezone="true"/>
+	</column>
+	<column name="GENDER_ID" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="FIRST_NAME">
+		<type name="varchar" length="50"/>
+	</column>
+	<column name="LAST_NAME">
+		<type name="varchar" length="50"/>
+	</column>
+	<column name="PHONE">
+		<type name="varchar" length="15"/>
+	</column>
+	<column name="ADDRESS">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="CREATED_AT" not-null="true">
+		<type name="timestamp" with-timezone="true"/>
+	</column>
+	<column name="UPDATED_AT">
+		<type name="timestamp" with-timezone="true"/>
+	</column>
+	<column name="LOGIN_FAILED_ATTEMPTS" not-null="true" default-value="0">
+		<type name="integer"/>
+	</column>
+	<column name="LAST_LOGIN_DATE">
+		<type name="timestamp" with-timezone="true"/>
+	</column>
+	<column name="LAST_LOGIN_IP">
+		<type name="varchar" length="45"/>
+	</column>
+	<constraint name="USERS_PK" type="pk-constr" table="public.&quot;USERS&quot;">
+		<columns names="ID" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="IDENTIFICATION_TYPES">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="936.54" y="141.011"/>
+	<column name="ID" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="NAME" not-null="true">
+		<type name="varchar" length="30"/>
+	</column>
+	<column name="ABBREVIATION" not-null="true">
+		<type name="varchar" length="5"/>
+	</column>
+	<column name="DESCRIPTION">
+		<type name="varchar" length="255"/>
+	</column>
+	<constraint name="IDENTIFICATION_TYPES_PK" type="pk-constr" table="public.&quot;IDENTIFICATION_TYPES&quot;">
+		<columns names="ID" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="GENDERS">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="937.57" y="231.565"/>
+	<column name="ID" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="NAME" not-null="true">
+		<type name="varchar" length="20"/>
+	</column>
+	<column name="DESCRIPTION">
+		<type name="varchar" length="255"/>
+	</column>
+	<constraint name="GENDERS_PK" type="pk-constr" table="public.&quot;GENDERS&quot;">
+		<columns names="ID" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="PASSWORD_RECORDS">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="725.86" y="9.3478"/>
+	<column name="ID" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="USER_ID" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="PASSWORD" not-null="true">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="PASSWORD_UPDATED_AT" not-null="true">
+		<type name="timestamp" with-timezone="true"/>
+	</column>
+	<constraint name="PASSWORD_RECORDS_PK" type="pk-constr" table="public.&quot;PASSWORD_RECORDS&quot;">
+		<columns names="ID" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="ROLES">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="298.652" y="508.913"/>
+	<column name="ID" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="NAME" not-null="true">
+		<type name="varchar" length="20"/>
+	</column>
+	<column name="IP_FILTER" not-null="true" default-value="false">
+		<type name="boolean"/>
+	</column>
+	<constraint name="ROLES_PK" type="pk-constr" table="public.&quot;ROLES&quot;">
+		<columns names="ID" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="RESOURCES">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="264" y="880.5"/>
+	<column name="ID" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="NAME" not-null="true">
+		<type name="varchar" length="20"/>
+	</column>
+	<column name="DESCRIPTION">
+		<type name="varchar" length="255"/>
+	</column>
+	<constraint name="RESOURCES_PK" type="pk-constr" table="public.&quot;RESOURCES&quot;">
+		<columns names="ID" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="ACTIONS">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="758.75" y="879.011"/>
+	<column name="ID" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="NAME" not-null="true">
+		<type name="varchar" length="20"/>
+	</column>
+	<column name="DESCRIPTION">
+		<type name="varchar" length="255"/>
+	</column>
+	<constraint name="ACTIONS_PK" type="pk-constr" table="public.&quot;ACTIONS&quot;">
+		<columns names="ID" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="PERMISSIONS">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="524.5" y="736.75"/>
+	<column name="ID" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="ACTION_ID" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="RESOURCE_ID" not-null="true">
+		<type name="integer"/>
+	</column>
+	<constraint name="PERMISSIONS_PK" type="pk-constr" table="public.&quot;PERMISSIONS&quot;">
+		<columns names="ID" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="ROLES_PERMISSIONS">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="518.391" y="623.304"/>
+	<column name="ID" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="ROLE_ID" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="PERMISSION_ID" not-null="true">
+		<type name="integer"/>
+	</column>
+	<constraint name="ROLES_PERMISSIONS_PK" type="pk-constr" table="public.&quot;ROLES_PERMISSIONS&quot;">
+		<columns names="ID" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="ROLES_IPS">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="67.392" y="719.217"/>
+	<column name="ID" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="ROLE_ID" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="IP" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<constraint name="ROLES_IPS_PK" type="pk-constr" table="public.&quot;ROLES_IPS&quot;">
+		<columns names="ID" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="USERS_ROLES">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="95.8696" y="338.652"/>
+	<column name="ID" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="USER_ID" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="ROLE_ID" not-null="true">
+		<type name="integer"/>
+	</column>
+	<constraint name="USERS_ROLES_PK" type="pk-constr" table="public.&quot;USERS_ROLES&quot;">
+		<columns names="ID" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="ROLES_ROLES">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="676.141" y="487.815"/>
+	<column name="ID" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="PARENT_ROLE_ID" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="CHILD_ROLE_ID" not-null="true">
+		<type name="integer"/>
+	</column>
+	<constraint name="ROLES_ROLES_PK" type="pk-constr" table="public.&quot;ROLES_ROLES&quot;">
+		<columns names="ID" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="USERS_STATUS_IDX" table="public.&quot;USERS&quot;"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="&quot;STATUS&quot;"/>
+		</idxelement>
+</index>
+
+<index name="USERS_IDENTIFICATION_IDX" table="public.&quot;USERS&quot;"
+	 concurrent="false" unique="true" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="&quot;IDENTIFICATION&quot;"/>
+		</idxelement>
+</index>
+
+<index name="USERS_EMAIL_IDX" table="public.&quot;USERS&quot;"
+	 concurrent="false" unique="true" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="&quot;EMAIL&quot;"/>
+		</idxelement>
+</index>
+
+<index name="USERS_USERNAME_IDX" table="public.&quot;USERS&quot;"
+	 concurrent="false" unique="true" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="&quot;USERNAME&quot;"/>
+		</idxelement>
+</index>
+
+<constraint name="USERS_IDENTIFICATION_TYPE_FK" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;IDENTIFICATION_TYPES&quot;" table="public.&quot;USERS&quot;">
+	<columns names="IDENTIFICATION_TYPE_ID" ref-type="src-columns"/>
+	<columns names="ID" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="USERS_GENDER_FK" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;GENDERS&quot;" table="public.&quot;USERS&quot;">
+	<columns names="GENDER_ID" ref-type="src-columns"/>
+	<columns names="ID" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="PASSWORD_RECORDS_USER_ID_FK" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;USERS&quot;" table="public.&quot;PASSWORD_RECORDS&quot;">
+	<columns names="USER_ID" ref-type="src-columns"/>
+	<columns names="ID" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="PERMISSIONS_RESOURCE_ID_FK" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;RESOURCES&quot;" table="public.&quot;PERMISSIONS&quot;">
+	<columns names="RESOURCE_ID" ref-type="src-columns"/>
+	<columns names="ID" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="PERMISSIONS_ACTION_ID_FK" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;ACTIONS&quot;" table="public.&quot;PERMISSIONS&quot;">
+	<columns names="ACTION_ID" ref-type="src-columns"/>
+	<columns names="ID" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="ROLES_PERMISSIONS_ROLE_ID_FK" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;ROLES&quot;" table="public.&quot;ROLES_PERMISSIONS&quot;">
+	<columns names="ROLE_ID" ref-type="src-columns"/>
+	<columns names="ID" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="ROLES_PERMISSIONS_PERMISSION_ID_FK" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;PERMISSIONS&quot;" table="public.&quot;ROLES_PERMISSIONS&quot;">
+	<columns names="PERMISSION_ID" ref-type="src-columns"/>
+	<columns names="ID" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="ROLES_IPS_ROLE_ID_FK" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;ROLES&quot;" table="public.&quot;ROLES_IPS&quot;">
+	<columns names="ROLE_ID" ref-type="src-columns"/>
+	<columns names="ID" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="USERS_ROLES_USER_ID_FK" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;USERS&quot;" table="public.&quot;USERS_ROLES&quot;">
+	<columns names="USER_ID" ref-type="src-columns"/>
+	<columns names="ID" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="USERS_ROLES_ROLE_ID_FK" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;ROLES&quot;" table="public.&quot;USERS_ROLES&quot;">
+	<columns names="ROLE_ID" ref-type="src-columns"/>
+	<columns names="ID" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="ROLES_ROLES_PARENT_ROLE_FK" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;ROLES&quot;" table="public.&quot;ROLES_ROLES&quot;">
+	<columns names="PARENT_ROLE_ID" ref-type="src-columns"/>
+	<columns names="ID" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="ROLES_ROLES_CHILD_ROLE_FK" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;ROLES&quot;" table="public.&quot;ROLES_ROLES&quot;">
+	<columns names="CHILD_ROLE_ID" ref-type="src-columns"/>
+	<columns names="ID" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_USERS_IDENTIFICATION_TYPES" type="relfk"
+	 src-table="public.&quot;USERS&quot;"
+	 dst-table="public.&quot;IDENTIFICATION_TYPES&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="8.62136" y="1.04597"/>
+	</label>
+</relationship>
+
+<relationship name="rel_USERS_GENDERS" type="relfk"
+	 src-table="public.&quot;USERS&quot;"
+	 dst-table="public.&quot;GENDERS&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="1.35636" y="7.01897"/>
+	</label>
+</relationship>
+
+<relationship name="rel_PASSWORD_RECORDS_USERS" type="relfk"
+	 src-table="public.&quot;PASSWORD_RECORDS&quot;"
+	 dst-table="public.&quot;USERS&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="-105.039" y="-38.1224"/>
+	</label>
+</relationship>
+
+<relationship name="rel_PERMISSIONS_RESOURCES" type="relfk"
+	 src-table="public.&quot;PERMISSIONS&quot;"
+	 dst-table="public.&quot;RESOURCES&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="-97.5696" y="-33.9485"/>
+	</label>
+</relationship>
+
+<relationship name="rel_PERMISSIONS_ACTIONS" type="relfk"
+	 src-table="public.&quot;PERMISSIONS&quot;"
+	 dst-table="public.&quot;ACTIONS&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="90.3757" y="-25.579"/>
+	</label>
+</relationship>
+
+<relationship name="rel_ROLES_PERMISSIONS_ROLES" type="relfk"
+	 src-table="public.&quot;ROLES_PERMISSIONS&quot;"
+	 dst-table="public.&quot;ROLES&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="dst-label">
+		<position x="-1.62617" y="8.14783"/>
+	</label>
+	<label ref-type="name-label">
+		<position x="-97.5208" y="-11.557"/>
+	</label>
+</relationship>
+
+<relationship name="rel_ROLES_PERMISSIONS_PERMISSIONS" type="relfk"
+	 src-table="public.&quot;ROLES_PERMISSIONS&quot;"
+	 dst-table="public.&quot;PERMISSIONS&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="121.127" y="-25.1005"/>
+	</label>
+</relationship>
+
+<relationship name="rel_ROLES_IPS_ROLES" type="relfk"
+	 src-table="public.&quot;ROLES_IPS&quot;"
+	 dst-table="public.&quot;ROLES&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="dst-label">
+		<position x="-14.41" y="8.8"/>
+	</label>
+	<label ref-type="name-label">
+		<position x="-74.3338" y="-25.5135"/>
+	</label>
+</relationship>
+
+<relationship name="rel_USERS_ROLES_USERS" type="relfk"
+	 src-table="public.&quot;USERS_ROLES&quot;"
+	 dst-table="public.&quot;USERS&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="-82.895" y="-30.7745"/>
+	</label>
+</relationship>
+
+<relationship name="rel_USERS_ROLES_ROLES" type="relfk"
+	 src-table="public.&quot;USERS_ROLES&quot;"
+	 dst-table="public.&quot;ROLES&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="dst-label">
+		<position x="1.59" y="-10.2"/>
+	</label>
+	<label ref-type="name-label">
+		<position x="-85.221" y="-20.231"/>
+	</label>
+</relationship>
+
+<relationship name="rel_ROLES_ROLES_ROLES" type="relfk"
+	 src-table="public.&quot;ROLES_ROLES&quot;"
+	 dst-table="public.&quot;ROLES&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="dst-label">
+		<position x="-2.49573" y="-8.37391"/>
+	</label>
+	<label ref-type="name-label">
+		<position x="-3.52076" y="-47.4375"/>
+	</label>
+</relationship>
+
+</dbmodel>
