@@ -20,8 +20,8 @@ class RolesDAO( val profile: JdbcProfile ) extends EntityActions( profile )
   override type Id = Int
 
   override def baseTypedType: BaseTypedType[ Int ] = implicitly[ BaseTypedType[ Id ] ]
-  override def $id( table: Roles ): jdbcProfile.api.Rep[ Int ] = table.id
   override def idLens: Lens[ Role, Option[ Int ] ] = lens { element: Role => element.id } { ( element, id ) => element.copy( id = id ) }
+  override def $id( table: Roles ): jdbcProfile.api.Rep[ Int ] = table.id
   override def tableQuery: jdbcProfile.api.TableQuery[ Roles ] = Roles
 
 }

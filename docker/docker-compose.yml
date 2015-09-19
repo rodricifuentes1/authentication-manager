@@ -1,0 +1,10 @@
+postgres:
+ container_name: authentication-postgres
+ image: postgres
+ ports:
+  - "5433:5432"
+ environment:
+  - POSTGRES_PASSWORD=authentication_db_pw
+  - POSTGRES_USER=authentication
+ volumes:
+  - ./postgres:/docker-entrypoint-initdb.d

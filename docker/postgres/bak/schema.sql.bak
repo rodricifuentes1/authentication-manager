@@ -12,7 +12,7 @@
 -- CREATE DATABASE new_database
 -- ;
 -- -- ddl-end --
--- 
+--
 
 -- object: public."USERS" | type: TABLE --
 -- DROP TABLE IF EXISTS public."USERS" CASCADE;
@@ -307,5 +307,3 @@ ALTER TABLE public."ROLES_ROLES" ADD CONSTRAINT "ROLES_ROLES_CHILD_ROLE_FK" FORE
 REFERENCES public."ROLES" ("ID") MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
-
-
