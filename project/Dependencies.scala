@@ -31,6 +31,7 @@ object Dependencies {
   val ficusVersion: String = "1.1.2"
   val nScalaTimeVersion: String = "2.2.0"
   val scalazVersion: String = "7.1.3"
+  val scalaCacheVersion: String = "0.6.4"
   
   // Persistence
   val slickVersion: String = "3.0.3"
@@ -61,6 +62,7 @@ object Dependencies {
     "net.ceedubs" %% "ficus" % ficusVersion,
     "com.github.nscala-time" %% "nscala-time" % nScalaTimeVersion,
     "org.scalaz" %% "scalaz-core" % scalazVersion,
+    "com.github.cb372" %% "scalacache-lrumap" % scalaCacheVersion,
 
     "com.typesafe.slick" %% "slick" % slickVersion,
     "com.typesafe.slick" %% "slick-codegen" % slickVersion,

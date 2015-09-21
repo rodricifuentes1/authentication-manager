@@ -1,14 +1,22 @@
 package co.rc.authmanager.domain.infrastructure.security
 
+import co.rc.authmanager.persistence.daos.RolesDAO
+import co.rc.authmanager.persistence.infrastructure.database.DatabaseConfigProvider
+
+import com.typesafe.scalalogging.LazyLogging
+
 import scala.concurrent.Future
 
 /**
  * Trait that provides role validation functionalities
  */
-trait SecurityProvider {
+trait SecurityProvider extends DatabaseConfigProvider with LazyLogging {
 
   /**
-   * Method that validates if provided role has permission to execute an action in a resource
+   * Method that validates if provided role has permission to execute an action in a resource. <br/>
+   * <b> Execution flow: </b><br/>
+   * 1. Get role from database <br/>
+   * 2. Verify if request ip is allowed <br/>
    * @param roleId Role id to validate
    * @param action Action to execute
    * @param resource Application resource to execute action
@@ -17,19 +25,15 @@ trait SecurityProvider {
    * @tparam A Method return type
    * @return Future[A]
    */
-  def hasPermission[A](roleId: Int,
-                      action: String,
-                      resource: String,
-                      ip: Option[String] = None )( f: => Future[A] ): Future[A] = {
-    // Execution flow:
-    //  1. Get role from DB.
-    //  1.1 Verify role allowed ips if it is set in role properties
-    //  1.2
-    //  2. Get role allowed ips if is defined in role properties
-    //  3. Verify ip validity
-    f
-  }
+  def hasPermission[ A ]( roleId: Int,
+    action: String,
+    resource: String,
+    ip: Option[ String ] = None )( f: => Future[ A ] ): Future[ A ] = f
 
-  def getRole(roleId: Int, ip: Option[String])
+  private def getRole( roleId: Int ): Future[ Option[ RolesDAO#Entity ] ] = withDatabase { dbConfig =>
+    val dao = new RolesDAO( dbConfig.driver )
+    val query = dao.findOptionById( roleId )
+    dbConfig.db.run( query )
+  }
 
 }
