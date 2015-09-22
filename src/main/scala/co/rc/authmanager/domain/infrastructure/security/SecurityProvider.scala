@@ -8,7 +8,7 @@ import com.typesafe.scalalogging.LazyLogging
 import scala.concurrent.Future
 
 /**
- * Trait that provides role validation functionalities
+ * Trait that provides role validation capabilities
  */
 trait SecurityProvider extends DatabaseConfigProvider with LazyLogging {
 
@@ -29,11 +29,5 @@ trait SecurityProvider extends DatabaseConfigProvider with LazyLogging {
     action: String,
     resource: String,
     ip: Option[ String ] = None )( f: => Future[ A ] ): Future[ A ] = f
-
-  private def getRole( roleId: Int ): Future[ Option[ RolesDAO#Entity ] ] = withDatabase { dbConfig =>
-    val dao = new RolesDAO( dbConfig.driver )
-    val query = dao.findOptionById( roleId )
-    dbConfig.db.run( query )
-  }
 
 }

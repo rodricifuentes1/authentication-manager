@@ -1,4 +1,4 @@
-package co.rc.authmanager.commons.enumerations
+package co.rc.authmanager.domain.infrastructure.enumerations
 
 /**
  * Object that defines user valid statuses

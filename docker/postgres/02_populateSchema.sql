@@ -16,3 +16,13 @@ INSERT INTO public."ROLES" ( "NAME", "IP_FILTER" ) values ( "SUPERUSER", false )
 
 -- DEFAULT ROLES_PERMISSIONS --
 INSERT INTO public."ROLES_PERMISSIONS" ( "ROLE_ID", "PERMISSION_ID" ) values ( 1, 1 ); -- ID 1 --
+
+-- DEFAULT GENDERS --
+INSERT INTO public."GENDERS" ( "NAME", "DESCRIPTION" ) values ( "MALE", "Gender representation for men" ); -- ID 1 --
+INSERT INTO public."GENDERS" ( "NAME", "DESCRIPTION" ) values ( "FEMALE", "Gender representation for women" ); -- ID 2 --
+
+-- DEFAULT IDENTIFICATION TYPES --
+INSERT INTO public."IDENTIFICATION_TYPES" ( "NAME", "ABBREVIATION", "DESCRIPTION" ) values ( "Cédula de ciudadanía", "CC", "Documento de identificación personal de los ciudadanos mayores de edad" ); -- ID 1 --
+INSERT INTO public."IDENTIFICATION_TYPES" ( "NAME", "ABBREVIATION", "DESCRIPTION" ) values ( "Cédula de extranjería", "CE", "Documento de identificación personal de los ciudadanos extranjeros en el territorio" ); -- ID 2 --
+INSERT INTO public."IDENTIFICATION_TYPES" ( "NAME", "ABBREVIATION", "DESCRIPTION" ) values ( "NIT", "NIT", "Número de identificación tributario para empresas" ); -- ID 3 --
+INSERT INTO public."IDENTIFICATION_TYPES" ( "NAME", "ABBREVIATION", "DESCRIPTION" ) values ( "Pasaporte", "PAS", "Documento de autorización para ingresar y/o entrar al país" ); -- ID 4 --

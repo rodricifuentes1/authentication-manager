@@ -1,4 +1,4 @@
-package co.rc.authmanager.commons.cache
+package co.rc.authmanager.domain.infrastructure.cache
 
 import scalacache._
 import scalacache.lrumap._
@@ -8,6 +8,9 @@ import scalacache.lrumap._
  */
 trait CacheProvider {
 
+  /**
+   * Implicit cache definition using ScalaCache
+   */
   implicit def cache: ScalaCache
 
 }
@@ -17,6 +20,9 @@ trait CacheProvider {
  */
 object CacheProvider extends CacheProvider {
 
+  /**
+   * Implicit cache implementation using ScalaCache and LruMap
+   */
   override implicit val cache: ScalaCache = ScalaCache( LruMapCache( 2000 ) )
 
 }

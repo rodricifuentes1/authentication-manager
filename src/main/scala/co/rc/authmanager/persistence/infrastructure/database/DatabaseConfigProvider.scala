@@ -1,22 +1,23 @@
 package co.rc.authmanager.persistence.infrastructure.database
 
-import co.rc.authmanager.commons.cache.CacheProvider
+import scala.concurrent.Future
+
+import scalacache.ScalaCache
+import scalacache.memoization.memoize
+
 import slick.backend.DatabaseConfig
 import slick.driver.JdbcProfile
-
-import scala.concurrent.Future
-import scalacache.memoization.memoize
 
 /**
  * Trait that defines a database provider for common use in the application
  */
-trait DatabaseConfigProvider extends CacheProvider {
+trait DatabaseConfigProvider {
 
   /**
    * Provides application default database configuration to internal context.
    * @param f A function that needs database config
    */
-  def withDatabase[ A ]( f: DatabaseConfig[ JdbcProfile ] => Future[ A ] ): Future[ A ] = memoize {
+  def withDatabase[ A ]( f: DatabaseConfig[ JdbcProfile ] => Future[ A ] )( implicit cache: ScalaCache ): Future[ A ] = memoize {
     f( DatabaseConfig.forConfig[ JdbcProfile ]( "co.rc.authmanager.persistence.default-db" ) )
   }
 
@@ -25,7 +26,7 @@ trait DatabaseConfigProvider extends CacheProvider {
    * @param dbName Database name to provide
    * @param f A function that needs database config
    */
-  def withDatabase[ A ]( dbName: String )( f: DatabaseConfig[ JdbcProfile ] => Future[ A ] ): Future[ A ] = memoize {
+  def withDatabase[ A ]( dbName: String )( f: DatabaseConfig[ JdbcProfile ] => Future[ A ] )( implicit cache: ScalaCache ): Future[ A ] = memoize {
     f( DatabaseConfig.forConfig[ JdbcProfile ]( s"co.rc.authmanager.persistence.$dbName" ) )
   }
 
