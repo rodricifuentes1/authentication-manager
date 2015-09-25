@@ -12,7 +12,7 @@ INSERT INTO public."RESOURCES" ( "NAME", "DESCRIPTION" ) values ( '*', 'Any reso
 INSERT INTO public."PERMISSIONS" ( "ACTION_ID", "RESOURCE_ID" ) values ( 1, 1 ); -- ID 1 --
 
 -- DEFAULT ROLES --
-INSERT INTO public."ROLES" ( "NAME", "IP_FILTER" ) values ( 'SUPERUSER', false ); -- ID 1 --
+INSERT INTO public."ROLES" ( "NAME", "IP_FILTER", "IS_SUPERTYPE" ) values ( 'SUPERUSER', false, false ); -- ID 1 --
 
 -- DEFAULT ROLES_PERMISSIONS --
 INSERT INTO public."ROLES_PERMISSIONS" ( "ROLE_ID", "PERMISSION_ID" ) values ( 1, 1 ); -- ID 1 --

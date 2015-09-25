@@ -73,13 +73,13 @@ slickCodegenDriver := slick.driver.PostgresDriver
 slickCodegenJdbcDriver := "org.postgresql.Driver"
 
 // Database URL
-slickCodegenDatabaseUrl := "jdbc:postgresql://192.168.59.103/postgres"
+slickCodegenDatabaseUrl := "jdbc:postgresql://127.0.0.1:5433/authentication"
 
 // Database user
-slickCodegenDatabaseUser := "postgres"
+slickCodegenDatabaseUser := "authentication"
 
 // Database password
-slickCodegenDatabasePassword := "pg"
+slickCodegenDatabasePassword := "authentication_db_pw"
 
 // Output directory -> src/main/scala
 slickCodegenOutputDir := baseDirectory.value / "src" / "main" / "scala"

@@ -223,27 +223,30 @@ trait Tables { this: io.strongtyped.active.slick.JdbcProfileProvider =>
    * Entity class storing rows of table Roles
    *  @param name Database column NAME SqlType(varchar), Length(20,true)
    *  @param ipFilter Database column IP_FILTER SqlType(bool), Default(false)
+   *  @param isSupertype Database column IS_SUPERTYPE SqlType(bool), Default(false)
    *  @param id Database column ID SqlType(serial), AutoInc, PrimaryKey
    */
-  case class Role( name: String, ipFilter: Boolean = false, id: Option[ Int ] = None )
+  case class Role( name: String, ipFilter: Boolean = false, isSupertype: Boolean = false, id: Option[ Int ] = None )
   /** GetResult implicit for fetching Role objects using plain SQL queries */
   implicit def GetResultRole( implicit e0: GR[ String ], e1: GR[ Boolean ], e2: GR[ Option[ Int ] ] ): GR[ Role ] = GR {
     prs =>
       import prs._
-      val r = ( <<?[ Int ], <<[ String ], <<[ Boolean ] )
+      val r = ( <<?[ Int ], <<[ String ], <<[ Boolean ], <<[ Boolean ] )
       import r._
-      Role.tupled( ( _2, _3, _1 ) ) // putting AutoInc last
+      Role.tupled( ( _2, _3, _4, _1 ) ) // putting AutoInc last
   }
   /** Table description of table ROLES. Objects of this class serve as prototypes for rows in queries. */
   class Roles( _tableTag: Tag ) extends Table[ Role ]( _tableTag, "ROLES" ) {
-    def * = ( name, ipFilter, Rep.Some( id ) ) <> ( Role.tupled, Role.unapply )
+    def * = ( name, ipFilter, isSupertype, Rep.Some( id ) ) <> ( Role.tupled, Role.unapply )
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = ( Rep.Some( name ), Rep.Some( ipFilter ), Rep.Some( id ) ).shaped.<>( { r => import r._; _1.map( _ => Role.tupled( ( _1.get, _2.get, _3 ) ) ) }, ( _: Any ) => throw new Exception( "Inserting into ? projection not supported." ) )
+    def ? = ( Rep.Some( name ), Rep.Some( ipFilter ), Rep.Some( isSupertype ), Rep.Some( id ) ).shaped.<>( { r => import r._; _1.map( _ => Role.tupled( ( _1.get, _2.get, _3.get, _4 ) ) ) }, ( _: Any ) => throw new Exception( "Inserting into ? projection not supported." ) )
 
     /** Database column NAME SqlType(varchar), Length(20,true) */
     val name: Rep[ String ] = column[ String ]( "NAME", O.Length( 20, varying = true ) )
     /** Database column IP_FILTER SqlType(bool), Default(false) */
     val ipFilter: Rep[ Boolean ] = column[ Boolean ]( "IP_FILTER", O.Default( false ) )
+    /** Database column IS_SUPERTYPE SqlType(bool), Default(false) */
+    val isSupertype: Rep[ Boolean ] = column[ Boolean ]( "IS_SUPERTYPE", O.Default( false ) )
     /** Database column ID SqlType(serial), AutoInc, PrimaryKey */
     val id: Rep[ Int ] = column[ Int ]( "ID", O.AutoInc, O.PrimaryKey )
   }

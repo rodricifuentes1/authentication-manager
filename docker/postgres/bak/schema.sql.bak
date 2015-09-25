@@ -12,7 +12,7 @@
 -- CREATE DATABASE new_database
 -- ;
 -- -- ddl-end --
---
+-- 
 
 -- object: public."USERS" | type: TABLE --
 -- DROP TABLE IF EXISTS public."USERS" CASCADE;
@@ -90,6 +90,7 @@ CREATE TABLE public."ROLES"(
 	"ID" serial NOT NULL,
 	"NAME" varchar(20) NOT NULL,
 	"IP_FILTER" boolean NOT NULL DEFAULT false,
+	"IS_SUPERTYPE" boolean NOT NULL DEFAULT false,
 	CONSTRAINT "ROLES_PK" PRIMARY KEY ("ID")
 
 );
