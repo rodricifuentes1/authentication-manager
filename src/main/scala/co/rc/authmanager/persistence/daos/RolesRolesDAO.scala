@@ -1,27 +1,27 @@
 package co.rc.authmanager.persistence.daos
 
 import co.rc.authmanager.persistence.daos.base.DAO
-import co.rc.authmanager.persistence.utils.extensions.ActiveSlickExtensions
 
-import io.strongtyped.active.slick.{ Lens, EntityActions }
+import io.strongtyped.active.slick.Lens
 import io.strongtyped.active.slick.Lens._
 
 import slick.ast.BaseTypedType
-import slick.driver.JdbcProfile
 
 /**
  * Class that defines DAO implementation for RolesRoles
  */
-class RolesRolesDAO( val profile: JdbcProfile ) extends EntityActions( profile )
-    with DAO with ActiveSlickExtensions {
+class RolesRolesDAO extends DAO {
 
-  override type EntityTable = RolesRoles
-  override type Entity = RoleRole
+  import jdbcProfile.api._
+
   override type Id = Int
+  override type Entity = RoleRole
+  override type EntityTable = RolesRoles
 
-  override def baseTypedType: BaseTypedType[ Int ] = implicitly[ BaseTypedType[ Id ] ]
-  override def idLens: Lens[ RoleRole, Option[ Int ] ] = lens { element: RoleRole => element.id } { ( element, id ) => element.copy( id = id ) }
-  override def $id( table: RolesRoles ): jdbcProfile.api.Rep[ Int ] = table.id
-  override def tableQuery: jdbcProfile.api.TableQuery[ RolesRoles ] = RolesRoles
+  override val baseTypedType: BaseTypedType[ Int ] = implicitly[ BaseTypedType[ Id ] ]
+  override val idLens: Lens[ RoleRole, Option[ Int ] ] = lens { element: RoleRole => element.id } { ( element, id ) => element.copy( id = id ) }
+  override val tableQuery: TableQuery[ RolesRoles ] = RolesRoles
+
+  override def $id( table: RolesRoles ): Rep[ Int ] = table.id
 
 }

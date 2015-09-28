@@ -1,7 +1,7 @@
 package co.rc.authmanager.domain.infrastructure.security
 
 import co.rc.authmanager.persistence.daos.RolesDAO
-import co.rc.authmanager.persistence.infrastructure.database.DatabaseConfigProvider
+import co.rc.authmanager.persistence.infrastructure.database.DatabaseProvider
 
 import com.typesafe.scalalogging.LazyLogging
 
@@ -10,7 +10,7 @@ import scala.concurrent.Future
 /**
  * Trait that provides role validation capabilities
  */
-trait SecurityProvider extends DatabaseConfigProvider with LazyLogging {
+trait SecurityProvider extends DatabaseProvider with LazyLogging {
 
   /**
    * Method that validates if provided role has permission to execute an action in a resource. <br/>
