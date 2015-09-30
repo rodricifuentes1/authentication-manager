@@ -39,9 +39,16 @@ slickCodegenCodeGenerator := { ( model: m.Model ) => new SourceCodeGenerator( mo
     s"""
 package ${pkg}
 // AUTO-GENERATED Slick data model
+/** Stand-alone Slick data model for immediate use */
+object Tables extends {
+  val profile: slick.driver.JdbcProfile =
+  co.rc.authmanager.persistence.infrastructure.database.DB.profile
+} with Tables
+
 /** Slick data model trait for extension, choice of backend or usage in the cake pattern. (Make sure to initialize this late.) */
-trait ${container}${parentType.map(t => s" extends $t").getOrElse("")} { this: io.strongtyped.active.slick.JdbcProfileProvider =>
-  import jdbcProfile.api._
+trait ${container}${parentType.map(t => s" extends $t").getOrElse("")} {
+  val profile: slick.driver.JdbcProfile
+  import profile.api._
   ${indent(code)}
 }
       """.trim()
@@ -73,7 +80,7 @@ slickCodegenDriver := slick.driver.PostgresDriver
 slickCodegenJdbcDriver := "org.postgresql.Driver"
 
 // Database URL
-slickCodegenDatabaseUrl := "jdbc:postgresql://127.0.0.1:5433/authentication"
+slickCodegenDatabaseUrl := "jdbc:postgresql://192.168.99.100:5433/authentication"
 
 // Database user
 slickCodegenDatabaseUser := "authentication"

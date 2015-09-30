@@ -5,7 +5,7 @@ import io.strongtyped.active.slick.EntityActions
 /**
  * Trait that implements some extensions for EntityActions
  */
-trait ActiveSlickExtensions extends SlickExtensions { this: EntityActions =>
+trait ActiveSlickExtensions extends QueryExtensions { this: EntityActions =>
 
   import jdbcProfile.api._
 

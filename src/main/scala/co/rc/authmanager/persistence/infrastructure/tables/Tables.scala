@@ -1,8 +1,15 @@
 package co.rc.authmanager.persistence.infrastructure.tables
 // AUTO-GENERATED Slick data model
+/** Stand-alone Slick data model for immediate use */
+object Tables extends {
+  val profile: slick.driver.JdbcProfile =
+    co.rc.authmanager.persistence.infrastructure.database.DB.profile
+} with Tables
+
 /** Slick data model trait for extension, choice of backend or usage in the cake pattern. (Make sure to initialize this late.) */
-trait Tables { this: io.strongtyped.active.slick.JdbcProfileProvider =>
-  import jdbcProfile.api._
+trait Tables {
+  val profile: slick.driver.JdbcProfile
+  import profile.api._
 
   // ------- CUSTOM CODE start ---------
   import org.joda.time.DateTime
@@ -487,4 +494,10 @@ trait Tables { this: io.strongtyped.active.slick.JdbcProfileProvider =>
   }
   /** Collection-like TableQuery object for table UsersRoles */
   lazy val UsersRoles = new TableQuery( tag => new UsersRoles( tag ) )
+
+  /** Creates schema executing creation sql statements */
+  def createSchema = schema.create
+
+  /** Drops schema executing drop sql statements */
+  def dropSchema = schema.drop
 }

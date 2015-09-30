@@ -5,7 +5,7 @@ import slick.lifted.Query
 /**
  * Trait that defines extensions for TableQuery
  */
-trait SlickExtensions {
+trait QueryExtensions {
 
   /**
    * Implicit class that defines extensions for generic Query types

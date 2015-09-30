@@ -1,59 +1,54 @@
 package co.rc.authmanager.persistence.infrastructure.database
 
-import com.typesafe.config.ConfigFactory
+import com.twitter.util.NonFatal
+import com.typesafe.scalalogging.LazyLogging
 
-import scala.concurrent.Future
-
-import scalacache.ScalaCache
-import scalacache.memoization.memoize
+import scala.concurrent.{ ExecutionContext, Future }
 
 import slick.backend.DatabaseConfig
 import slick.driver.JdbcProfile
+import slick.jdbc.JdbcBackend
 
 /**
  * Trait that defines a database provider for common use in the application
  */
-trait DatabaseProvider {
+trait DatabaseProvider extends LazyLogging {
 
   /**
-   * Loads and return default database jdbc profile
+   * Method that connects to the default database
+   * @return Default database config
    */
-  def defaultProfile: JdbcProfile = ConfigFactory.load().getString( "co.rc.authmanager.persistence.default-db.driver" ) match {
-    case "slick.driver.DerbyDriver" | "slick.driver.DerbyDriver$"           => slick.driver.DerbyDriver
-    case "slick.driver.H2Driver" | "slick.driver.H2Driver$"                 => slick.driver.H2Driver
-    case "slick.driver.HsqldbDriver" | "slick.driver.HsqldbDriver$"         => slick.driver.HsqldbDriver
-    case "slick.driver.MySQLDriver" | "slick.driver.MySQLDriver$"           => slick.driver.MySQLDriver
-    case "slick.driver.SQLiteDriver" | "slick.driver.SQLiteDriver$"         => slick.driver.SQLiteDriver
-    case "slick.driver.PostgresDriver" | "slick.driver.PostgresDriver$" | _ => slick.driver.PostgresDriver
-  }
+  private val dbConfig: DatabaseConfig[ JdbcProfile ] =
+    DatabaseConfig.forConfig[ JdbcProfile ]( "co.rc.authmanager.persistence.authentication-db" )
+
+  /**
+   * Return default database jdbc profile
+   */
+  val profile: JdbcProfile = dbConfig.driver
+
+  /**
+   * Return default database
+   */
+  val db: JdbcBackend#DatabaseDef = dbConfig.db
 
   /**
    * Provides application default database configuration to internal context.
-   * @param f A function that needs database config
+   * @param f A function that takes application database config and returns A future
    */
-  def withDefaultDatabase[ A ]( f: DatabaseConfig[ JdbcProfile ] => Future[ A ] )( implicit cache: ScalaCache ): Future[ A ] = memoize {
-    f( DatabaseConfig.forConfig[ JdbcProfile ]( "co.rc.authmanager.persistence.default-db" ) )
+  def withConfig[ A ]( f: DatabaseConfig[ JdbcProfile ] => Future[ A ] )( implicit ec: ExecutionContext ): Future[ A ] = f( dbConfig ).recover {
+    case NonFatal( ex ) =>
+      logger.error( "There was an exception executing database operation", ex )
+      throw ex
   }
 
   /**
-   * Loads and return default JDBC profile of a named database
+   * Provides application default database to internal context.
+   * @param f A function that takes application database and returns A future
    */
-  def namedProfile( dbName: String ) = ConfigFactory.load().getString( s"co.rc.authmanager.persistence.$dbName.driver" ) match {
-    case "slick.driver.DerbyDriver" | "slick.driver.DerbyDriver$"           => slick.driver.DerbyDriver
-    case "slick.driver.H2Driver" | "slick.driver.H2Driver$"                 => slick.driver.H2Driver
-    case "slick.driver.HsqldbDriver" | "slick.driver.HsqldbDriver$"         => slick.driver.HsqldbDriver
-    case "slick.driver.MySQLDriver" | "slick.driver.MySQLDriver$"           => slick.driver.MySQLDriver
-    case "slick.driver.SQLiteDriver" | "slick.driver.SQLiteDriver$"         => slick.driver.SQLiteDriver
-    case "slick.driver.PostgresDriver" | "slick.driver.PostgresDriver$" | _ => slick.driver.PostgresDriver
-  }
-
-  /**
-   * Provides default database configuration to internal context.
-   * @param dbName Database name to provide
-   * @param f A function that needs database config
-   */
-  def withNamedDatabase[ A ]( dbName: String )( f: DatabaseConfig[ JdbcProfile ] => Future[ A ] )( implicit cache: ScalaCache ): Future[ A ] = memoize {
-    f( DatabaseConfig.forConfig[ JdbcProfile ]( s"co.rc.authmanager.persistence.$dbName" ) )
+  def withDatabase[ A ]( f: JdbcBackend#DatabaseDef => Future[ A ] )( implicit ec: ExecutionContext ): Future[ A ] = f( dbConfig.db ).recover {
+    case NonFatal( ex ) =>
+      logger.error( "There was an exception executing database operation", ex )
+      throw ex
   }
 
 }
