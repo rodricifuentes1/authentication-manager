@@ -1,5 +1,6 @@
 package co.rc.authmanager.persistence.daos
 
+import co.rc.authmanager.persistence.infrastructure.database.DB
 import co.rc.authmanager.persistence.infrastructure.tables.Tables
 
 import slick.dbio.Effect.Read
@@ -10,18 +11,16 @@ import slick.profile.FixedSqlStreamingAction
  */
 object RolesDAO {
 
-  import Tables.profile.api._
-  import Tables.{ Users, UsersRoles, Roles, Permissions, RolesPermissions, RolesIps, RolesRoles } // TableQueries
-  import Tables.{ Role, RoleIp, RoleRole, Permission } // Rows
+  import DB.profile.api._
 
   /**
    * Method that retrieves all roles of a specific user by its identifier
    * @param userId User identifier
    */
-  def getUserRoles( userId: Int ): FixedSqlStreamingAction[ Seq[ Role ], Role, Read ] =
-    Users
-      .join( UsersRoles ).on( _.id === _.userId ).filter( _._2.userId === userId )
-      .join( Roles ).on( _._2.roleId === _.id )
+  def getUserRoles( userId: Int ): FixedSqlStreamingAction[ Seq[ Tables.Role ], Tables.Role, Read ] =
+    Tables.Users
+      .join( Tables.UsersRoles ).on( _.id === _.userId ).filter( _._2.userId === userId )
+      .join( Tables.Roles ).on( _._2.roleId === _.id )
       .map( _._2 )
       .result
 
@@ -29,10 +28,10 @@ object RolesDAO {
    * Method that retrieves all permissions given to a specific role by its identifier
    * @param roleId Role identifier
    */
-  def getRolePermissions( roleId: Int ): FixedSqlStreamingAction[ Seq[ Permission ], Permission, Read ] =
-    Roles
-      .join( RolesPermissions ).on( _.id === _.roleId ).filter( _._2.roleId === roleId )
-      .join( Permissions ).on( _._2.permissionId === _.id )
+  def getRolePermissions( roleId: Int ): FixedSqlStreamingAction[ Seq[ Tables.Permission ], Tables.Permission, Read ] =
+    Tables.Roles
+      .join( Tables.RolesPermissions ).on( _.id === _.roleId ).filter( _._2.roleId === roleId )
+      .join( Tables.Permissions ).on( _._2.permissionId === _.id )
       .map( _._2 )
       .result
 
@@ -40,9 +39,9 @@ object RolesDAO {
    * Method that retrieves ips allowed to a specific role by its identifier
    * @param roleId Role identifier
    */
-  def getAllowedIps( roleId: Int ): FixedSqlStreamingAction[ Seq[ RoleIp ], RoleIp, Read ] =
-    Roles
-      .join( RolesIps ).on( _.id === _.roleId ).filter( _._2.roleId === roleId )
+  def getRoleAllowedIps( roleId: Int ): FixedSqlStreamingAction[ Seq[ Tables.RoleIp ], Tables.RoleIp, Read ] =
+    Tables.Roles
+      .join( Tables.RolesIps ).on( _.id === _.roleId ).filter( _._2.roleId === roleId )
       .map( _._2 )
       .result
 
@@ -50,9 +49,9 @@ object RolesDAO {
    * Method that retrieves parents of a specific role by its identifier
    * @param roleId Role identifier
    */
-  def getParents( roleId: Int ): FixedSqlStreamingAction[ Seq[ RoleRole ], RoleRole, Read ] =
-    Roles
-      .join( RolesRoles ).on( _.id === _.childRoleId ).filter( _._2.childRoleId === roleId )
+  def getRoleParents( roleId: Int ): FixedSqlStreamingAction[ Seq[ Tables.RoleRole ], Tables.RoleRole, Read ] =
+    Tables.Roles
+      .join( Tables.RolesRoles ).on( _.id === _.childRoleId ).filter( _._2.childRoleId === roleId )
       .map( _._2 )
       .result
 

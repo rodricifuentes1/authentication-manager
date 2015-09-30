@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="2,0" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="0,0" last-zoom="0.8"
 	 default-schema="public" default-owner="postgres">
 <database name="new_database">
 </database>
@@ -85,7 +85,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="serial"/>
 	</column>
 	<column name="NAME" not-null="true">
-		<type name="varchar" length="30"/>
+		<type name="varchar" length="50"/>
 	</column>
 	<column name="ABBREVIATION" not-null="true">
 		<type name="varchar" length="5"/>

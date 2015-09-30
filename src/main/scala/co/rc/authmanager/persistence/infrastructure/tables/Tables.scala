@@ -2,8 +2,14 @@ package co.rc.authmanager.persistence.infrastructure.tables
 // AUTO-GENERATED Slick data model
 /** Stand-alone Slick data model for immediate use */
 object Tables extends {
-  val profile: slick.driver.JdbcProfile =
-    co.rc.authmanager.persistence.infrastructure.database.DB.profile
+  val profile: slick.driver.JdbcProfile = com.typesafe.config.ConfigFactory.load().getString( "co.rc.authmanager.persistence.authentication-db.driver" ) match {
+    case "slick.driver.DerbyDriver" | "slick.driver.DerbyDriver$"           => slick.driver.DerbyDriver
+    case "slick.driver.H2Driver" | "slick.driver.H2Driver$"                 => slick.driver.H2Driver
+    case "slick.driver.HsqldbDriver" | "slick.driver.HsqldbDriver$"         => slick.driver.HsqldbDriver
+    case "slick.driver.MySQLDriver" | "slick.driver.MySQLDriver$"           => slick.driver.MySQLDriver
+    case "slick.driver.SQLiteDriver" | "slick.driver.SQLiteDriver$"         => slick.driver.SQLiteDriver
+    case "slick.driver.PostgresDriver" | "slick.driver.PostgresDriver$" | _ => slick.driver.PostgresDriver
+  }
 } with Tables
 
 /** Slick data model trait for extension, choice of backend or usage in the cake pattern. (Make sure to initialize this late.) */
@@ -90,7 +96,7 @@ trait Tables {
 
   /**
    * Entity class storing rows of table IdentificationTypes
-   *  @param name Database column NAME SqlType(varchar), Length(30,true)
+   *  @param name Database column NAME SqlType(varchar), Length(50,true)
    *  @param abbreviation Database column ABBREVIATION SqlType(varchar), Length(5,true)
    *  @param description Database column DESCRIPTION SqlType(varchar), Length(255,true), Default(None)
    *  @param id Database column ID SqlType(serial), AutoInc, PrimaryKey
@@ -110,8 +116,8 @@ trait Tables {
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = ( Rep.Some( name ), Rep.Some( abbreviation ), description, Rep.Some( id ) ).shaped.<>( { r => import r._; _1.map( _ => IdentificationType.tupled( ( _1.get, _2.get, _3, _4 ) ) ) }, ( _: Any ) => throw new Exception( "Inserting into ? projection not supported." ) )
 
-    /** Database column NAME SqlType(varchar), Length(30,true) */
-    val name: Rep[ String ] = column[ String ]( "NAME", O.Length( 30, varying = true ) )
+    /** Database column NAME SqlType(varchar), Length(50,true) */
+    val name: Rep[ String ] = column[ String ]( "NAME", O.Length( 50, varying = true ) )
     /** Database column ABBREVIATION SqlType(varchar), Length(5,true) */
     val abbreviation: Rep[ String ] = column[ String ]( "ABBREVIATION", O.Length( 5, varying = true ) )
     /** Database column DESCRIPTION SqlType(varchar), Length(255,true), Default(None) */
@@ -230,30 +236,27 @@ trait Tables {
    * Entity class storing rows of table Roles
    *  @param name Database column NAME SqlType(varchar), Length(20,true)
    *  @param ipFilter Database column IP_FILTER SqlType(bool), Default(false)
-   *  @param isSupertype Database column IS_SUPERTYPE SqlType(bool), Default(false)
    *  @param id Database column ID SqlType(serial), AutoInc, PrimaryKey
    */
-  case class Role( name: String, ipFilter: Boolean = false, isSupertype: Boolean = false, id: Option[ Int ] = None )
+  case class Role( name: String, ipFilter: Boolean = false, id: Option[ Int ] = None )
   /** GetResult implicit for fetching Role objects using plain SQL queries */
   implicit def GetResultRole( implicit e0: GR[ String ], e1: GR[ Boolean ], e2: GR[ Option[ Int ] ] ): GR[ Role ] = GR {
     prs =>
       import prs._
-      val r = ( <<?[ Int ], <<[ String ], <<[ Boolean ], <<[ Boolean ] )
+      val r = ( <<?[ Int ], <<[ String ], <<[ Boolean ] )
       import r._
-      Role.tupled( ( _2, _3, _4, _1 ) ) // putting AutoInc last
+      Role.tupled( ( _2, _3, _1 ) ) // putting AutoInc last
   }
   /** Table description of table ROLES. Objects of this class serve as prototypes for rows in queries. */
   class Roles( _tableTag: Tag ) extends Table[ Role ]( _tableTag, "ROLES" ) {
-    def * = ( name, ipFilter, isSupertype, Rep.Some( id ) ) <> ( Role.tupled, Role.unapply )
+    def * = ( name, ipFilter, Rep.Some( id ) ) <> ( Role.tupled, Role.unapply )
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = ( Rep.Some( name ), Rep.Some( ipFilter ), Rep.Some( isSupertype ), Rep.Some( id ) ).shaped.<>( { r => import r._; _1.map( _ => Role.tupled( ( _1.get, _2.get, _3.get, _4 ) ) ) }, ( _: Any ) => throw new Exception( "Inserting into ? projection not supported." ) )
+    def ? = ( Rep.Some( name ), Rep.Some( ipFilter ), Rep.Some( id ) ).shaped.<>( { r => import r._; _1.map( _ => Role.tupled( ( _1.get, _2.get, _3 ) ) ) }, ( _: Any ) => throw new Exception( "Inserting into ? projection not supported." ) )
 
     /** Database column NAME SqlType(varchar), Length(20,true) */
     val name: Rep[ String ] = column[ String ]( "NAME", O.Length( 20, varying = true ) )
     /** Database column IP_FILTER SqlType(bool), Default(false) */
     val ipFilter: Rep[ Boolean ] = column[ Boolean ]( "IP_FILTER", O.Default( false ) )
-    /** Database column IS_SUPERTYPE SqlType(bool), Default(false) */
-    val isSupertype: Rep[ Boolean ] = column[ Boolean ]( "IS_SUPERTYPE", O.Default( false ) )
     /** Database column ID SqlType(serial), AutoInc, PrimaryKey */
     val id: Rep[ Int ] = column[ Int ]( "ID", O.AutoInc, O.PrimaryKey )
   }
@@ -494,10 +497,4 @@ trait Tables {
   }
   /** Collection-like TableQuery object for table UsersRoles */
   lazy val UsersRoles = new TableQuery( tag => new UsersRoles( tag ) )
-
-  /** Creates schema executing creation sql statements */
-  def createSchema = schema.create
-
-  /** Drops schema executing drop sql statements */
-  def dropSchema = schema.drop
 }

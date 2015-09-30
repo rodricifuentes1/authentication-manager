@@ -41,8 +41,14 @@ package ${pkg}
 // AUTO-GENERATED Slick data model
 /** Stand-alone Slick data model for immediate use */
 object Tables extends {
-  val profile: slick.driver.JdbcProfile =
-  co.rc.authmanager.persistence.infrastructure.database.DB.profile
+  val profile: slick.driver.JdbcProfile = com.typesafe.config.ConfigFactory.load().getString( "co.rc.authmanager.persistence.authentication-db.driver" ) match {
+    case "slick.driver.DerbyDriver" | "slick.driver.DerbyDriver$$"           => slick.driver.DerbyDriver
+    case "slick.driver.H2Driver" | "slick.driver.H2Driver$$"                 => slick.driver.H2Driver
+    case "slick.driver.HsqldbDriver" | "slick.driver.HsqldbDriver$$"         => slick.driver.HsqldbDriver
+    case "slick.driver.MySQLDriver" | "slick.driver.MySQLDriver$$"           => slick.driver.MySQLDriver
+    case "slick.driver.SQLiteDriver" | "slick.driver.SQLiteDriver$$"         => slick.driver.SQLiteDriver
+    case "slick.driver.PostgresDriver" | "slick.driver.PostgresDriver$$" | _ => slick.driver.PostgresDriver
+  }
 } with Tables
 
 /** Slick data model trait for extension, choice of backend or usage in the cake pattern. (Make sure to initialize this late.) */
@@ -80,7 +86,7 @@ slickCodegenDriver := slick.driver.PostgresDriver
 slickCodegenJdbcDriver := "org.postgresql.Driver"
 
 // Database URL
-slickCodegenDatabaseUrl := "jdbc:postgresql://192.168.99.100:5433/authentication"
+slickCodegenDatabaseUrl := "jdbc:postgresql://authenticationdb.rc.co:5433/authentication"
 
 // Database user
 slickCodegenDatabaseUser := "authentication"
